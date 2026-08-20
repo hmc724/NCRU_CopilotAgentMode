@@ -4,9 +4,7 @@ import { Activity, Leaderboard, Team, User, Workout } from './models.js'
 
 const app = express()
 const port = 8000
-const baseUrl = process.env.CODESPACE_NAME
-  ? `https://${process.env.CODESPACE_NAME}-8000.app.github.dev`
-  : 'http://localhost:8000'
+const baseUrl = process.env.CODESPACE_NAME ? `https://${process.env.CODESPACE_NAME}-8000.app.github.dev` : 'http://localhost:8000'
 
 app.use(express.json())
 
