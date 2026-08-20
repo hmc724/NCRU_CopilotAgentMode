@@ -11,9 +11,17 @@ function Activities() {
   useEffect(() => {
     async function loadActivities() {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/activities/`)
-        if (!response.ok) {
-          throw new Error(`Unable to load /api/activities/ (${response.status})`)
+        if (codespaceName) {
+          const response = await fetch(`https://${codespaceName}-8000.app.github.dev/api/activities/`)
+          if (!response.ok) {
+            throw new Error(`Unable to load https://${codespaceName}-8000.app.github.dev/api/activities/ (${response.status})`)
+          }
+        }
+        else {
+          const response = await fetch(`http://localhost:8000/api/activities/`)
+          if (!response.ok) {
+            throw new Error(`Unable to load http://localhost:8000/api/activities/ (${response.status})`)
+          }
         }
 
         const payload = await response.json()
