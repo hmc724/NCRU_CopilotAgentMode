@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { fetchCollection } from '../api.js'
 
+const USERS_ENDPOINT = '/api/users/'
+
 function Users() {
   const [users, setUsers] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchCollection('/api/users/').then(setUsers).catch((requestError) => setError(requestError.message))
+    fetchCollection(USERS_ENDPOINT).then(setUsers).catch((requestError) => setError(requestError.message))
   }, [])
 
   return (

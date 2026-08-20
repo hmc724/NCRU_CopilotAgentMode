@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { fetchCollection } from '../api.js'
 
+const ACTIVITIES_ENDPOINT = '/api/activities/'
+
 function Activities() {
   const [activities, setActivities] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchCollection('/api/activities/').then(setActivities).catch((requestError) => setError(requestError.message))
+    fetchCollection(ACTIVITIES_ENDPOINT).then(setActivities).catch((requestError) => setError(requestError.message))
   }, [])
 
   return (

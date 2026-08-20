@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { fetchCollection } from '../api.js'
 
+const LEADERBOARD_ENDPOINT = '/api/leaderboard/'
+
 function Leaderboard() {
   const [entries, setEntries] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchCollection('/api/leaderboard/').then(setEntries).catch((requestError) => setError(requestError.message))
+    fetchCollection(LEADERBOARD_ENDPOINT).then(setEntries).catch((requestError) => setError(requestError.message))
   }, [])
 
   return (
