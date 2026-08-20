@@ -6,7 +6,7 @@ function Teams() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchCollection('teams').then(setTeams).catch((requestError) => setError(requestError.message))
+    fetchCollection('/api/teams/').then(setTeams).catch((requestError) => setError(requestError.message))
   }, [])
 
   return (
