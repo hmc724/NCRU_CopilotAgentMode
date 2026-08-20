@@ -1,14 +1,41 @@
 import { useEffect, useState } from 'react'
-import { fetchCollection } from '../api.js'
 
-const ACTIVITIES_ENDPOINT = '/api/activities/'
+
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const API_BASE_URL = codespaceName ? `https://${codespaceName}-8000.app.github.dev` : 'http://localhost:8000'
 
 function Activities() {
   const [activities, setActivities] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchCollection(ACTIVITIES_ENDPOINT).then(setActivities).catch((requestError) => setError(requestError.message))
+    async function loadActivities() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/activities/`)
+        if (!response.ok) {
+          throw new Error(`Unable to load /api/activities/ (${response.status})`)
+        }
+
+        const payload = await response.json()
+        let collection = []
+
+        if (Array.isArray(payload)) collection = payload
+        else if (Array.isArray(payload?.data)) collection = payload.data
+        else if (Array.isArray(payload?.results)) collection = payload.results
+        else if (Array.isArray(payload?.items)) collection = payload.items
+        else if (payload?.data && typeof payload.data === 'object') {
+          if (Array.isArray(payload.data.data)) collection = payload.data.data
+          else if (Array.isArray(payload.data.results)) collection = payload.data.results
+          else if (Array.isArray(payload.data.items)) collection = payload.data.items
+        }
+
+        setActivities(collection)
+      } catch (requestError) {
+        setError(requestError.message)
+      }
+    }
+
+    loadActivities()
   }, [])
 
   return (
