@@ -3,14 +3,14 @@ import { connectDatabase } from './config/database.js'
 import { Activity, Leaderboard, Team, User, Workout } from './models.js'
 
 const app = express()
-const port = Number(process.env.PORT ?? 8000)
+const port = 8000
 const baseUrl = process.env.CODESPACE_NAME
   ? `https://${process.env.CODESPACE_NAME}-8000.app.github.dev`
-  : `http://localhost:${port}`
+  : 'http://localhost:8000'
 
 app.use(express.json())
 
-app.get('/api/users/', async (_request, response) => {
+app.get('/api/users', async (_request, response) => {
   response.json(await User.find())
 })
 
@@ -18,7 +18,7 @@ app.get('/api/teams/', async (_request, response) => {
   response.json(await Team.find().populate('members'))
 })
 
-app.get('/api/activities/', async (_request, response) => {
+app.get('/api/activities', async (_request, response) => {
   response.json(await Activity.find().populate('user'))
 })
 
